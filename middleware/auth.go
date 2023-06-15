@@ -1,9 +1,10 @@
 package middleware
 
 import (
+	cfg "a21hc3NpZ25tZW50/config"
 	"a21hc3NpZ25tZW50/model"
 	"encoding/json"
-	
+
 	"fmt"
 	"net/http"
 
@@ -30,7 +31,7 @@ func Auth() gin.HandlerFunc {
 			if _,ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
 			}
-			return model.JwtKey, nil
+			return cfg.Config.JWTKey, nil
 		})
 
 		if err2 != nil {

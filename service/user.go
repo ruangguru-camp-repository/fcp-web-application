@@ -1,6 +1,7 @@
 package service
 
 import (
+	cfg "a21hc3NpZ25tZW50/config"
 	"a21hc3NpZ25tZW50/model"
 	repo "a21hc3NpZ25tZW50/repository"
 	"errors"
@@ -64,7 +65,7 @@ func (s *userService) Login(user *model.User) (token *string, err error) {
 	}
 
 	t := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := t.SignedString(model.JwtKey)
+	tokenString, err := t.SignedString(cfg.Config.JWTKey)
 	if err != nil {
 		return nil, err
 	}

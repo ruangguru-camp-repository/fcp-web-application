@@ -14,7 +14,7 @@ import (
 	"net/http"
 	"sync"
 	"time"
-
+	cfg "a21hc3NpZ25tZW50/config"
 	_ "embed"
 
 	"github.com/gin-gonic/gin"
@@ -62,11 +62,11 @@ func main() {
 		router.Use(gin.Recovery())
 
 		dbCredential := model.Credential{
-			Host:         "localhost",
-			Username:     "postgres",
-			Password:     "Agustin22",
-			DatabaseName: "tutor_db",
-			Port:         5432,
+			Host:         cfg.Config.DBHost,
+			Username:     cfg.Config.DBUsername,
+			Password:     cfg.Config.DBPassword,
+			DatabaseName: cfg.Config.DBName,
+			Port:         cfg.Config.DBPort,
 			Schema:       "public",
 		}
 
@@ -81,7 +81,7 @@ func main() {
 		router = RunClient(conn, router, Resources)
 
 		fmt.Println("Server is running on port 8080")
-		err = router.Run(":8080")
+		err = router.Run(":" + cfg.Config.AppPort)
 		if err != nil {
 			panic(err)
 		}
