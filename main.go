@@ -44,12 +44,13 @@ func main() {
 	gin.SetMode(gin.ReleaseMode) //release
 
 	wg := sync.WaitGroup{}
+	
+	config.Init()
 
 	wg.Add(1)
 
-	config.Init()
 	go func() {
-		
+		defer wg.Done()
 
 		router := gin.New()
 		db := db.NewDB()
@@ -88,7 +89,7 @@ func main() {
 			
 			panic(err)
 		}
-		defer wg.Done()
+		
 	}()
 
 	wg.Wait()
