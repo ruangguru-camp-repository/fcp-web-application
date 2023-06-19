@@ -14,7 +14,7 @@ import (
 	"net/http"
 	"sync"
 	"time"
-	cfg "a21hc3NpZ25tZW50/config"
+	"a21hc3NpZ25tZW50/config"
 	_ "embed"
 
 	"github.com/gin-gonic/gin"
@@ -46,8 +46,10 @@ func main() {
 	wg := sync.WaitGroup{}
 
 	wg.Add(1)
+
+	config.Init()
 	go func() {
-		defer wg.Done()
+		
 
 		router := gin.New()
 		db := db.NewDB()
@@ -62,16 +64,17 @@ func main() {
 		router.Use(gin.Recovery())
 
 		dbCredential := model.Credential{
-			Host:         cfg.Config.DBHost,
-			Username:     cfg.Config.DBUsername,
-			Password:     cfg.Config.DBPassword,
-			DatabaseName: cfg.Config.DBName,
-			Port:         cfg.Config.DBPort,
+			Host:         config.Config.DBHost,
+			Username:     config.Config.DBUsername,
+			Password:     config.Config.DBPassword,
+			DatabaseName: config.Config.DBName,
+			Port:         config.Config.DBPort,
 			Schema:       "public",
 		}
 
 		conn, err := db.Connect(&dbCredential)
 		if err != nil {
+			
 			panic(err)
 		}
 
@@ -81,11 +84,12 @@ func main() {
 		router = RunClient(conn, router, Resources)
 
 		fmt.Println("Server is running on port 8080")
-		err = router.Run(":" + cfg.Config.AppPort)
+		err = router.Run(":" + config.Config.AppPort)
 		if err != nil {
+			
 			panic(err)
 		}
-
+		defer wg.Done()
 	}()
 
 	wg.Wait()

@@ -2,6 +2,7 @@ package main_test
 
 import (
 	main "a21hc3NpZ25tZW50"
+	"a21hc3NpZ25tZW50/config"
 	"a21hc3NpZ25tZW50/db"
 	"a21hc3NpZ25tZW50/middleware"
 	"a21hc3NpZ25tZW50/model"
@@ -244,7 +245,7 @@ var _ = Describe("Task Tracker Plus", Ordered, func() {
 			It("should set user Email in context and call next middleware", func() {
 				claims := &model.Claims{Email: "aditira@gmail.com"}
 				token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-				signedToken, _ := token.SignedString(model.JwtKey)
+				signedToken, _ := token.SignedString(config.Config.JWTKey)
 				req, _ := http.NewRequest(http.MethodGet, "/", nil)
 				req.AddCookie(&http.Cookie{Name: "session_token", Value: signedToken})
 

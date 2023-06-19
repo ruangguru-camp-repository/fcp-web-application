@@ -1,6 +1,8 @@
 package config
 
-import "os"
+import (
+	"os"
+)
 
 var (
 	// BaseURL is the base url of the server
@@ -14,3 +16,4 @@ func SetUrl(url string) string {
 
 	return BaseURL + url
 }
+

@@ -56,6 +56,8 @@ func (u *userClient) Login(email, password string) (respCode int, err error) {
 	} else {
 		return resp.StatusCode, nil
 	}
+
+	
 }
 
 func (u *userClient) Register(fullname, email, password string) (respCode int, err error) {
