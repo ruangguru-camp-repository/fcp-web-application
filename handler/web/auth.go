@@ -42,6 +42,7 @@ func (a *authWeb) Login(c *gin.Context) {
 	err = tmpl.Execute(c.Writer, nil)
 	if err != nil {
 		c.Redirect(http.StatusSeeOther, "/client/modal?status=error&message="+err.Error())
+		return
 	}
 }
 
